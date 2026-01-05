@@ -4,115 +4,120 @@
 <meta charset="UTF-8">
 <title>Play with Cookies</title>
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-    }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
-    body {
-        height: 100vh;
-        overflow: hidden;
-    }
+body {
+    height: 100vh;
+    overflow: hidden;
+}
 
-    .page {
-        display: none;
-        height: 100vh;
-        width: 100vw;
-    }
+/* ===== PAGES ===== */
+.page {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+}
 
-    /* ===== HOME PAGE ===== */
-    #home {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background: yellow;
-        text-align: center;
-    }
+/* ===== HOME ===== */
+#home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: yellow;
+    text-align: center;
+}
 
-    #home h1 {
-        font-size: 3rem;
-        margin-bottom: 20px;
-    }
+#home h1 {
+    font-size: 3rem;
+    margin-bottom: 25px;
+}
 
-    .btn {
-        padding: 15px 30px;
-        font-size: 1.2rem;
-        border: none;
-        cursor: pointer;
-        margin: 10px;
-        border-radius: 8px;
-    }
+.btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px;
+}
 
-    .play-btn {
-        background: blue;
-        color: white;
-    }
+.play-btn {
+    background: blue;
+    color: white;
+}
 
-    .cmd-btn {
-        background: black;
-        color: white;
-    }
+.cmd-btn {
+    background: black;
+    color: white;
+}
 
-    /* ===== GAME PAGE ===== */
-    #game {
-        background: pink;
-        position: relative;
-    }
+/* ===== GAME ===== */
+#game {
+    background: pink;
+    position: relative;
+    overflow: hidden;
+    touch-action: manipulation;
+}
 
-    .cookie {
-        position: absolute;
-        top: -60px;
-        font-size: 40px;
-        animation: fall 3s linear forwards;
-        user-select: none;
-        pointer-events: none;
-    }
+.cookie {
+    position: absolute;
+    font-size: 40px;
+    user-select: none;
+    pointer-events: none;
+    animation: fall 0.8s ease-out forwards;
+}
 
-    @keyframes fall {
-        to {
-            top: calc(100vh - 50px);
-        }
-    }
+.huge {
+    font-size: 70px;
+}
 
-    .huge {
-        font-size: 70px;
-    }
+.mega {
+    font-size: 110px;
+}
 
-    .mega {
-        font-size: 110px;
+@keyframes fall {
+    from {
+        transform: translateY(-100px);
     }
+    to {
+        transform: translateY(0);
+    }
+}
 
-    .milk {
-        position: absolute;
-        font-size: 100px;
-        left: 50%;
-        top: 40%;
-        transform: translate(-50%, -50%);
-    }
+.milk {
+    position: absolute;
+    font-size: 120px;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+}
 
-    /* ===== COMMANDS PAGE ===== */
-    #commands {
-        background: #f2f2f2;
-        padding: 40px;
-    }
+/* ===== COMMANDS ===== */
+#commands {
+    background: #f0f0f0;
+    padding: 40px;
+}
 
-    #commands h2 {
-        margin-bottom: 20px;
-    }
+#commands h2 {
+    margin-bottom: 20px;
+}
 
-    #commands ul {
-        font-size: 1.2rem;
-        line-height: 2rem;
-    }
+#commands ul {
+    font-size: 1.2rem;
+    line-height: 2rem;
+}
 
-    .back-btn {
-        margin-top: 30px;
-        background: blue;
-        color: white;
-    }
+.back-btn {
+    margin-top: 30px;
+    background: blue;
+    color: white;
+}
 </style>
 </head>
 <body>
@@ -131,67 +136,93 @@
 <div id="commands" class="page">
     <h2>Game Commands</h2>
     <ul>
-        <li><b>Click</b> – Spawn a cookie</li>
+        <li><b>Click / Tap</b> – Spawn a cookie</li>
         <li><b>Ctrl + Click</b> – Double cookie</li>
         <li><b>Alt + Click</b> – Huge cookie</li>
         <li><b>Alt + Click x3</b> – Mega huge cookie</li>
-        <li><b>Space</b> – Random cookie</li>
-        <li><b>Tab</b> – Milk appears and all cookies fly away, game restarts</li>
+        <li><b>Tap with 2 fingers (mobile)</b> – Huge cookie</li>
+        <li><b>Tap 3 times fast (mobile)</b> – Mega huge cookie</li>
+        <li><b>Space</b> – Cookie</li>
+        <li><b>Tab</b> – Milk appears, cookies fly away, restart</li>
     </ul>
     <button class="btn back-btn" onclick="goHome()">Back</button>
 </div>
 
 <script>
 let game = document.getElementById("game");
+let stackHeight = 0;
 let altClicks = 0;
-
-function goGame() {
-    showPage("game");
-}
-
-function goHome() {
-    showPage("home");
-}
-
-function goCommands() {
-    showPage("commands");
-}
+let lastTap = 0;
+let tapCount = 0;
 
 function showPage(id) {
     document.querySelectorAll(".page").forEach(p => p.style.display = "none");
     document.getElementById(id).style.display = "block";
 }
 
-game.addEventListener("click", (e) => {
+function goGame() { showPage("game"); }
+function goHome() { showPage("home"); }
+function goCommands() { showPage("commands"); }
+
+/* ===== SPAWN COOKIE ===== */
+function spawnCookie(size = "normal", double = false) {
     let cookie = document.createElement("div");
     cookie.classList.add("cookie");
-    cookie.innerHTML = "🍪";
-    cookie.style.left = Math.random() * (window.innerWidth - 60) + "px";
+    cookie.innerHTML = double ? "🍪🍪" : "🍪";
 
-    if (e.ctrlKey) {
-        cookie.innerHTML = "🍪🍪";
-    }
+    if (size === "huge") cookie.classList.add("huge");
+    if (size === "mega") cookie.classList.add("mega");
+
+    let x = Math.random() * (window.innerWidth - 80);
+    let y = window.innerHeight - 60 - stackHeight;
+
+    cookie.style.left = x + "px";
+    cookie.style.top = y + "px";
+
+    stackHeight += 45;
+    game.appendChild(cookie);
+}
+
+/* ===== MOUSE CLICK ===== */
+game.addEventListener("click", (e) => {
+    let size = "normal";
+    let double = false;
+
+    if (e.ctrlKey) double = true;
 
     if (e.altKey) {
         altClicks++;
-        if (altClicks >= 3) {
-            cookie.classList.add("mega");
-            altClicks = 0;
-        } else {
-            cookie.classList.add("huge");
-        }
+        size = altClicks >= 3 ? "mega" : "huge";
+        if (altClicks >= 3) altClicks = 0;
     }
 
-    game.appendChild(cookie);
+    spawnCookie(size, double);
 });
 
+/* ===== MOBILE TOUCH ===== */
+game.addEventListener("touchstart", (e) => {
+    let now = Date.now();
+    if (now - lastTap < 300) {
+        tapCount++;
+    } else {
+        tapCount = 1;
+    }
+    lastTap = now;
+
+    if (e.touches.length === 2) {
+        spawnCookie("huge");
+    } else if (tapCount >= 3) {
+        spawnCookie("mega");
+        tapCount = 0;
+    } else {
+        spawnCookie();
+    }
+});
+
+/* ===== KEYBOARD ===== */
 document.addEventListener("keydown", (e) => {
     if (e.code === "Space") {
-        let cookie = document.createElement("div");
-        cookie.classList.add("cookie");
-        cookie.innerHTML = "🍪";
-        cookie.style.left = Math.random() * (window.innerWidth - 60) + "px";
-        game.appendChild(cookie);
+        spawnCookie();
     }
 
     if (e.code === "Tab") {
@@ -202,12 +233,12 @@ document.addEventListener("keydown", (e) => {
         game.appendChild(milk);
 
         document.querySelectorAll(".cookie").forEach(c => {
-            c.style.animation = "none";
-            c.style.transform = `translate(${Math.random()*1000 - 500}px, -800px)`;
+            c.style.transform = `translate(${Math.random()*800 - 400}px, -800px)`;
         });
 
         setTimeout(() => {
             game.innerHTML = "";
+            stackHeight = 0;
         }, 1500);
     }
 });
