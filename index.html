@@ -5,182 +5,359 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stumble Tracer — Home Page</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://stumbleaura.xyz/style.css">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* ===== BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
     body {
-      font-family: 'Lilita One', cursive;
-      background: linear-gradient(180deg, #ff9a1c 0%, #ff6a00 100%);
-      color: #c7f0ff;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #e5e7eb;
       overflow-x: hidden;
     }
 
-    p {
-      color: #c7f0ff;
-      text-shadow: 0 6px 14px rgba(0,0,0,0.35);
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: 90%;
+      max-width: 1150px;
+      margin: auto;
+      position: relative;
+      z-index: 2;
     }
 
-    h1, h2, h3, h4 {
-      color: #052f55;
-      text-shadow:
-        0 8px 30px rgba(5,47,85,0.85),
-        0 0 18px rgba(46,140,220,0.2);
+    /* HEADER */
+    .header {
+      padding: 25px 0;
     }
 
-    /* ===== BUTTONS ===== */
-    .btn, .btn-discord {
-      background: linear-gradient(180deg, #c7f0ff 0%, #9bdcff 100%);
-      color: #042033;
-      border: none;
-      box-shadow: 0 12px 34px rgba(3,62,107,0.12);
-      transition: transform .25s ease, box-shadow .25s ease;
+    .logo {
+      font-family: 'Lilita One', cursive;
+      color: #ffb703;
+      text-shadow: 0 10px 30px rgba(255,183,3,.45);
     }
 
-    .btn:hover, .btn-discord:hover {
-      transform: translateY(-4px) scale(1.05);
-      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+    /* HERO */
+    .hero {
+      margin-top: 60px;
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      padding: 40px;
+      border-radius: 24px;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 30px 80px rgba(0,0,0,.55);
+      animation: float 6s ease-in-out infinite;
     }
 
-    /* ===== PARTICLES ===== */
+    .hero h2 {
+      color: #ffb703;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    /* BUTTONS */
+    .btn,
+    .btn-discord {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 30px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ffb703, #ff8f00);
+      color: #1b1b1b;
+      font-weight: 600;
+      box-shadow: 0 12px 35px rgba(255,183,3,.35);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .btn:hover,
+    .btn-discord:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 45px rgba(255,183,3,.55);
+    }
+
+    /* PARTICLES */
+    #particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
     .particle {
-      background: rgba(122,255,170,0.95);
-      box-shadow: 0 4px 12px rgba(90,220,150,0.28);
+      position: absolute;
+      top: -20px;
+      width: 6px;
+      height: 6px;
+      background: rgba(122,255,170,.8);
       border-radius: 50%;
-      animation: floatUp 12s linear infinite, flicker 3s infinite;
+      animation: fall 12s linear infinite;
+      opacity: .35;
     }
 
-    @keyframes floatUp {
-      from { transform: translateY(110vh); }
-      to { transform: translateY(-20vh); }
+    @keyframes fall {
+      to { transform: translateY(110vh); }
     }
 
-    @keyframes flicker {
-      0%,100% { opacity: .4; }
-      50% { opacity: 1; }
+    /* SECTIONS */
+    section {
+      margin-top: 110px;
     }
 
-    /* ===== SCROLL APPEAR (LIKE STUMBLEAURA) ===== */
-    section, .hero, .feature-card, .bottom-left, .bottom-right {
-      opacity: 0;
-      transform: translateY(40px);
-      animation: appear .9s ease forwards;
-      animation-timeline: view();
-      animation-range: entry 0% cover 30%;
+    h2, h3 {
+      color: #ffb703;
     }
 
-    @keyframes appear {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    /* FEATURES */
+    .features-grid {
+      margin-top: 50px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 30px;
     }
 
-    /* ===== FEATURE CARDS ===== */
     .feature-card {
-      transition: transform .35s ease, box-shadow .35s ease;
+      background: rgba(0,0,0,.35);
+      padding: 25px;
+      border-radius: 18px;
+      transition: .4s;
     }
 
     .feature-card:hover {
-      transform: translateY(-10px) rotateX(6deg);
-      box-shadow: 0 25px 60px rgba(0,0,0,.4);
+      transform: translateY(-10px);
+      background: rgba(255,183,3,.15);
     }
 
-    /* ===== DISCORD PULSE ===== */
-    .btn-discord {
-      animation: discordPulse 2.5s infinite;
+    /* READY */
+    .ready-section {
+      text-align: center;
+      padding: 60px 30px;
+      background: rgba(255,255,255,.06);
+      border-radius: 24px;
     }
 
-    @keyframes discordPulse {
-      0% { box-shadow: 0 0 0 rgba(88,101,242,0); }
-      50% { box-shadow: 0 0 30px rgba(88,101,242,.6); }
-      100% { box-shadow: 0 0 0 rgba(88,101,242,0); }
+    /* BOTTOM */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
     }
+
+    .bottom-left,
+    .bottom-right {
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(14px);
+      padding: 25px;
+      border-radius: 18px;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0); }
+    }
+    /* =========================
+   EMOJI DECORATIVE (CSS ONLY)
+   ========================= */
+
+/* Titlu principal */
+.hero h2::after {
+  content: " 🚀";
+}
+
+/* Features title */
+.features-title::after {
+  content: " ✨";
+}
+
+/* Ready title */
+.ready-title::after {
+  content: " 🎮";
+}
+
+/* Feature cards emoji */
+.feature-card:nth-child(1) .feature-title::before { content: "🔃 "; }
+.feature-card:nth-child(2) .feature-title::before { content: "⚡ "; }
+.feature-card:nth-child(3) .feature-title::before { content: "🗺️ "; }
+.feature-card:nth-child(4) .feature-title::before { content: "🏆 "; }
+.feature-card:nth-child(5) .feature-title::before { content: "🛠️ "; }
+
+/* Bottom title */
+.bottom-left h3::after {
+  content: " 💎";
+}
+
+/* =========================
+   DISCORD BUTTON – LOGO ONLY VIA CSS
+   ========================= */
+
+.btn-discord {
+  position: relative;
+  padding-left: 52px !important;
+}
+
+/* Discord logo (CSS background, no HTML edit) */
+.btn-discord::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  width: 22px;
+  height: 22px;
+  background-image: url("https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/discord.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: invert(1);
+}
+
+/* Hover glow Discord */
+.btn-discord:hover {
+  box-shadow: 0 0 25px rgba(88,101,242,0.6) !important;
+}
+
+/* =========================
+   MICRO ANIMATIONS (SAFE)
+   ========================= */
+
+/* Emoji pulse */
+.feature-title::before,
+.hero h2::after,
+.ready-title::after {
+  animation: emojiPulse 2s infinite ease-in-out;
+}
+
+@keyframes emojiPulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+    
   </style>
 </head>
 
 <body>
-  <div class="cursor"></div>
 
-  <header class="header">
-    <div class="container">
-      <h1 class="logo">Stumble Tracer</h1>
-      <nav class="nav">
-        <a class="active" href="#">Homepage</a>
-      </nav>
+<div id="particles">
+  <div class="particle" style="left:10%; animation-delay:1s"></div>
+  <div class="particle" style="left:25%; animation-delay:4s"></div>
+  <div class="particle" style="left:50%; animation-delay:2s"></div>
+  <div class="particle" style="left:75%; animation-delay:6s"></div>
+</div>
+
+<header class="header">
+  <div class="container">
+    <h1 class="logo">Stumble Tracer</h1>
+  </div>
+</header>
+
+<main class="home container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Stumble Tracer — Premier Classic SG Release</h2>
+      <p>
+        Stumble Tracer 0.56 is a special Stumble Guys modification for PC and mobile. Built with safety,
+        reliability and performance in focus, it delivers smooth, enjoyable and dependable matches,
+        letting players share great moments with friends and family.
+      </p>
+      <a href="https://stumbletracer.neocities.org" class="btn">Get it now</a>
     </div>
-  </header>
+    <div class="hero-image">
+      <img src="https://cdn.discordapp.com/attachments/1445376566766076108/1452401443394031787/Sans_titre_431_202512061"
+           width="250">
+    </div>
+  </section>
 
-  <main class="home container">
+  <!-- FEATURES -->
+  <section class="features-section" id="features">
+    <h2 class="features-title">Exclusive Features</h2>
+    <p class="features-subtitle">
+      Discover what makes <strong>Stumble Tracer</strong> stand out — powerful tools and features crafted for serious players.
+    </p>
 
-    <section class="hero">
-      <div class="hero-content">
-        <h2>Stumble Tracer — Premier Classic SG Release</h2>
-        <p>
-          Stumble Tracer 0.56 is a special Stumble Guys modification for PC and mobile.
-          Built with safety, reliability and performance in focus.
+    <div class="features-grid">
+      <div class="feature-card">
+        <h3 class="feature-title">Respawn Maps</h3>
+        <p class="feature-text">
+          Play the best elimination maps in respawn mode and have fun with your friends!
         </p>
-        <a class="btn" href="#">Get it now</a>
       </div>
 
-      <div class="hero-image">
-        <img src="https://cdn.discordapp.com/attachments/1445376566766076108/1452401443394031787/Sans_titre_431_202512061.png" width="250">
+      <div class="feature-card">
+        <h3 class="feature-title">High Performance</h3>
+        <p class="feature-text">
+          Enjoy faster, smoother matches thanks to deep optimizations and lower latency for competitive play.
+        </p>
       </div>
-    </section>
 
-    <section class="features-section">
-      <h2 class="features-title">Exclusive Features</h2>
-      <p class="features-subtitle">
-        Discover what makes <strong>Stumble Tracer</strong> stand out.
-      </p>
-
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">🔃</div>
-          <h3>Respawn Maps</h3>
-          <p>Play elimination maps in respawn mode.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">✨</div>
-          <h3>High Performance</h3>
-          <p>Faster and smoother matches.</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🎉</div>
-          <h3>Maps</h3>
-          <p>Old classic maps available.</p>
-        </div>
+      <div class="feature-card">
+        <h3 class="feature-title">Maps</h3>
+        <p class="feature-text">
+          On our version you can find old maps, and enjoy playing with your friends what you want, as in the old times.
+        </p>
       </div>
-    </section>
 
-    <section class="ready-section">
-      <h2 class="ready-title">Ready to Jump In?</h2>
-      <p class="ready-subtitle">
-        Take your version of <strong>Stumble Tracer</strong>.
-      </p>
-      <a class="btn" href="#">Download Here</a>
-    </section>
+      <div class="feature-card">
+        <h3 class="feature-title">Retro Tournaments</h3>
+        <p class="feature-text">
+          Re-experience classic tournament modes with nostalgic maps and unique rewards you won’t find elsewhere.
+        </p>
+      </div>
 
-    <section class="bottom-info">
+      <div class="feature-card">
+        <h3 class="feature-title">Regular Updates</h3>
+        <p class="feature-text">
+          We push steady improvements and fixes so the game keeps running great without long interruptions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- READY -->
+  <section class="ready-section">
+    <h2 class="ready-title">Ready to Jump In?</h2>
+    <p class="ready-subtitle">
+      Take your version of <strong>Stumble Tracer</strong> and join thousands of players in the most stable,
+      fun Stumble Guys experience available.
+    </p>
+    <a href="https://stumbletracer.neocities.org" class="btn">Download Here</a>
+  </section>
+
+  <!-- BOTTOM -->
+  <section class="bottom-info">
+    <div class="bottom-grid">
+
       <div class="bottom-left">
         <h3>Stumble Tracer</h3>
         <p>
-          Play Stumble Guys in a refreshed way with improved performance.
+          Play Stumble Guys in a refreshed way — with special features, improved performance,
+          and a welcoming community ready to play together.
         </p>
       </div>
 
       <div class="bottom-right">
         <h4>Community</h4>
-        <a class="btn-discord" href="#">
-          <img src="https://stumbleaura.xyz/images/discord.webp" width="20">
+        <a href="https://stumbletracer.neocities.org" class="btn-discord">
           Join our Discord Server
         </a>
       </div>
-    </section>
 
-  </main>
+    </div>
+  </section>
+
+</main>
+
 </body>
 </html>
