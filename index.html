@@ -242,6 +242,158 @@
   50% { transform: scale(1.15); opacity: 1; }
   100% { transform: scale(1); opacity: 0.8; }
 }
+    /* =========================
+   EXTRA TEXT (CSS ONLY)
+   ========================= */
+
+/* Subtitle under hero text */
+.hero-content p::after {
+  content: " ⚡ Stable • Classic • Competitive";
+  display: block;
+  margin-top: 12px;
+  font-size: 0.95em;
+  opacity: 0.9;
+  letter-spacing: 1px;
+}
+
+/* Features subtitle extra line */
+.features-subtitle::after {
+  content: " 🎯 Built for OG players • No limits • Pure fun";
+  display: block;
+  margin-top: 10px;
+  opacity: 0.85;
+}
+
+/* Ready section hype text */
+.ready-subtitle::after {
+  content: " 🚀 Jump in. Play smart. Win big.";
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Bottom text extra vibe */
+.bottom-left p::after {
+  content: " ❤️ Made by players, for players.";
+  display: block;
+  margin-top: 10px;
+  opacity: 0.8;
+}
+
+/* =========================
+   SCROLL REVEAL (PURE CSS)
+   ========================= */
+
+section {
+  animation: reveal 1s ease forwards;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+@keyframes reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   PARTICLES – MORE ALIVE
+   ========================= */
+
+.particle {
+  animation:
+    floatUp 12s linear infinite,
+    flicker 3s ease-in-out infinite;
+}
+
+@keyframes floatUp {
+  from { transform: translateY(110vh) scale(0.8); }
+  to { transform: translateY(-20vh) scale(1.2); }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* =========================
+   FAKE MOUSE GLOW FOLLOW
+   ========================= */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255,255,255,0.06),
+      transparent 40%
+    );
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  animation: glowMove 12s infinite alternate ease-in-out;
+}
+
+@keyframes glowMove {
+  0% { background-position: 20% 30%; }
+  50% { background-position: 80% 60%; }
+  100% { background-position: 40% 90%; }
+}
+
+/* =========================
+   BUTTONS – JUICY HOVER
+   ========================= */
+
+.btn,
+.btn-discord {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn:hover,
+.btn-discord:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.35) !important;
+}
+
+/* =========================
+   FEATURE CARDS – DEPTH
+   ========================= */
+
+.feature-card {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px) rotateX(6deg);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+}
+
+/* =========================
+   DISCORD BUTTON – PULSE
+   ========================= */
+
+.btn-discord {
+  animation: discordPulse 2.5s infinite;
+}
+
+@keyframes discordPulse {
+  0% { box-shadow: 0 0 0 rgba(88,101,242,0.0); }
+  50% { box-shadow: 0 0 30px rgba(88,101,242,0.6); }
+  100% { box-shadow: 0 0 0 rgba(88,101,242,0.0); }
+}
+
+/* =========================
+   CURSOR MAGIC (IF PRESENT)
+   ========================= */
+
+.cursor {
+  mix-blend-mode: difference;
+  filter: blur(2px);
+}
     
   </style>
 </head>
