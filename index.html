@@ -782,6 +782,34 @@ body {
   opacity: 0.85;
   line-height: 1.5;
 }
+    /* =========================
+   CARD SCROLL ACTIVATION
+   ========================= */
+
+.feature-card {
+  transition:
+    transform 0.45s cubic-bezier(.22,.61,.36,1),
+    box-shadow 0.45s ease,
+    filter 0.45s ease;
+}
+
+/* ANIMAȚIA CARE ÎNAINTE ERA LA CLICK / HOVER */
+.feature-card.active {
+  transform: translateY(-14px) scale(1.06);
+  box-shadow:
+    0 0 60px rgba(0,180,255,0.55),
+    0 0 120px rgba(0,120,255,0.35),
+    0 40px 120px rgba(0,0,0,0.9);
+  filter: brightness(1.15);
+}
+
+/* opțional: dezactivează hover dacă vrei doar scroll */
+.feature-card:hover {
+  transform: none;
+  box-shadow: inherit;
+  filter: none;
+}
+    
     
   </style>
 </head>
@@ -789,34 +817,25 @@ body {
   <script>
   const cards = document.querySelectorAll('.feature-card');
 
-  function updateActiveCard() {
-    const center = window.innerHeight / 2;
+  function onScrollActivate() {
+    const viewportCenter = window.innerHeight / 2;
 
     cards.forEach(card => {
       const rect = card.getBoundingClientRect();
       const cardCenter = rect.top + rect.height / 2;
 
-      if (Math.abs(cardCenter - center) < rect.height / 2) {
+      if (Math.abs(cardCenter - viewportCenter) < rect.height * 0.4) {
         card.classList.add('active');
-
-        // Inject text doar o singură dată
-        if (!card.querySelector('.web-info')) {
-          const info = document.createElement('div');
-          info.className = 'web-info';
-          info.textContent =
-            'Optimized for web experience with smooth performance, stability and classic gameplay feeling.';
-          card.appendChild(info);
-        }
-
       } else {
         card.classList.remove('active');
       }
     });
   }
 
-  window.addEventListener('scroll', updateActiveCard);
-  window.addEventListener('load', updateActiveCard);
+  window.addEventListener('scroll', onScrollActivate);
+  window.addEventListener('load', onScrollActivate);
   </script>
+  
   
 <body>
 
