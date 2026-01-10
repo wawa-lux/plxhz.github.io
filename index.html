@@ -833,20 +833,26 @@ body {
   filter: brightness(1.18);
 }
 
-/* TEXT ADĂUGAT (STUMBLEAURA STYLE) */
-.feature-card .extra-info {
-  margin-top: 14px;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #c7f0ff;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+/* =========================
+   FEATURE CARD – SCROLL ACTIVE (NO TEXT)
+   ========================= */
+
+.feature-card {
+  opacity: 1 !important;
+  transform: none !important;
+  transition:
+    transform 0.45s ease,
+    box-shadow 0.45s ease,
+    filter 0.45s ease;
 }
 
-.feature-card.active .extra-info {
-  opacity: 0.9;
-  transform: translateY(0);
+.feature-card.active {
+  transform: translateY(-16px) scale(1.07);
+  box-shadow:
+    0 0 60px rgba(0,180,255,0.6),
+    0 0 120px rgba(0,120,255,0.4),
+    0 40px 120px rgba(0,0,0,0.9);
+  filter: brightness(1.18);
 }
     
   </style>
@@ -863,19 +869,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const rect = card.getBoundingClientRect();
       const cardCenter = rect.top + rect.height / 2;
 
-      if (cardCenter > viewportCenter - rect.height * 0.4 &&
-          cardCenter < viewportCenter + rect.height * 0.4) {
+      if (
+        cardCenter > viewportCenter - rect.height * 0.4 &&
+        cardCenter < viewportCenter + rect.height * 0.4
+      ) {
         card.classList.add("active");
-
-        // Adaugă text o singură dată
-        if (!card.querySelector(".extra-info")) {
-          const info = document.createElement("div");
-          info.className = "extra-info";
-          info.textContent =
-            "Optimized for classic gameplay, smooth performance and a stable web experience inspired by early Stumble Guys versions.";
-          card.appendChild(info);
-        }
-
       } else {
         card.classList.remove("active");
       }
@@ -886,6 +884,7 @@ document.addEventListener("DOMContentLoaded", () => {
   activateCardsOnScroll();
 });
 </script>
+  
   
   
   
